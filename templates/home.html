@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6f9;">
+
+    <!-- Header Section -->
+    <header style="background: linear-gradient(45deg, #4a90e2, #0f80e6); padding: 40px 0; text-align: center; color: white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+        <img src="https://newpious.com/wp-content/uploads/2023/04/cropped-logo_211__1_-removebg-preview-1-120x57.png" alt="Newpious Synergies Logo" style="width: 120px; height: auto; margin-bottom: 20px;">
+        <h1 style="font-size: 40px; margin: 10px 0; font-family: 'Roboto', Arial, sans-serif; font-weight: bold;">Welcome to Newpious Synergies Pvt. Ltd.</h1>
+        <p style="font-size: 22px; color: #f7f7f7; font-style: italic;">India's First Successfully Solar Cold Storage Company</p>
+    </header>
+
+    <!-- Main Content Section -->
+    <section style="padding: 50px; background-color: #ffffff; margin: 20px auto; width: 90%; max-width: 1200px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+        <h2 style="font-size: 32px; color: #333; margin-bottom: 30px; text-align: center;">Our Achievements</h2>
+        <p style="font-size: 20px; color: #555; line-height: 1.8; text-align: justify;">
+            At Newpious, we take pride in our successful track record of implementing solar cold storage plants across India. Our expertise and innovation have allowed us to achieve groundbreaking milestones:
+        </p>
+        <p style="font-size: 20px; color: #555; font-weight: bold; margin-top: 20px; text-align: justify;">
+            - India's First Successfully Solar Cold Storage running 240HP and 150HP Motors with 300HP Solar VFD without Grid & without Battery.
+        </p>
+
+        <!-- Location Section -->
+        <h3 style="font-size: 28px; color: #333; margin-top: 40px; text-align: center;">Our Location</h3>
+        <div style="margin-top: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.20912625132!2d81.03444549999999!3d26.865096100000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c395732bec399%3A0x5d575353c6237e6a!2sNewpious%20Synergies%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1733304761193!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <!-- Contact Information Section -->
+        <h3 style="font-size: 28px; color: #333; margin-top: 40px; text-align: center;">Contact Us</h3>
+        <p style="font-size: 20px; color: #555; margin-top: 20px; text-align: justify;">
+            <strong>NEWPIOUS SYNERGIES PVT. LTD.</strong><br>
+            <strong>Reg. Add.:</strong> R-24, Rajeev Nagar Extension, New Delhi – 110086<br>
+            <strong>U.P. Office:</strong> D2/541, Vikalp Khand, Gomti Nagar, U.P. - 226010<br>
+            <strong>Contact No.:</strong> +91-8810753571, 7355388159<br>
+            <strong>E-mail:</strong> <a href="mailto:project@piousenergy.com" style="color: #4CAF50; text-decoration: none; font-weight: bold;">project@piousenergy.com</a><br>
+            <strong>Website:</strong> <a href="http://www.newpious.com" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">www.newpious.com</a><br>
+            <strong>GSTIN:</strong> 09AAGCN1206Q1Z6
+        </p>
+    </section>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #333; padding: 20px 0; color: white; text-align: center; font-size: 16px; margin-top: 40px;">
+        <p>&copy; 2024 Newpious Synergies Pvt. Ltd. All rights reserved.</p>
+    </footer>
+
+    <style>
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 18px;
+            }
+
+            section {
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            section h2 {
+                font-size: 26px;
+            }
+
+            section p {
+                font-size: 18px;
+            }
+
+            iframe {
+                height: 300px;
+            }
+
+            footer p {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 30px 0;
+            }
+
+            header img {
+                width: 100px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            section h2 {
+                font-size: 24px;
+            }
+
+            section p {
+                font-size: 16px;
+            }
+
+            footer p {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+</body>
+
+{% endblock %}

@@ -1,0 +1,452 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Dashboard</h1>
+    <div class="search-bar">
+        <input
+        style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box;"
+         type="text" id="searchInput" placeholder="Search " onkeyup="filterTable()">
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <button class="nav-btn" onclick="scrollToSection('sales-section')">Sales</button>
+        <button class="nav-btn" onclick="scrollToSection('purchases-section')">Purchases</button>
+        <button class="nav-btn" onclick="exportSalesTable()">Export Sales to Excel</button>
+        <button class="nav-btn" onclick="exportPurchasesTable()">Export Purchases to Excel</button>
+        <button class="nav-btn" onclick="exportBothTables()">Export Sales & Purchases to Excel</button>
+
+        <select id="filter-date"  style="width: 150px; padding: 10px; border-radius: 5px; 
+        background-color:rgb(0, 2, 3);
+        border: 1px solid #ccc; 
+        color:white;
+        font-size: 16px; box-sizing: border-box;" onchange="applyDateFilter()">
+            <option value="all">Filter</option>
+            <option value="today">Today</option>
+            <option value="last3days">Last 3 Days</option>
+            <option value="last7days">Last 1 Week</option>
+            <option value="last15days">Last 15 Days</option>
+            <option value="last1month">Last 1 Month</option>
+            <option value="last3months">Last 3 Months</option>
+            <option value="last6months">Last 6 Months</option>
+        </select>
+        
+        <script>
+            function applyDateFilter() {
+                const filterDate = document.getElementById('filter-date').value;
+                const currentUrl = window.location.href.split('?')[0];
+                window.location.href = `${currentUrl}?filter_date=${filterDate}`;
+            }
+        </script>
+        
+    </div>
+
+    <!-- Sales Section -->
+    <div id="sales-section" class="section">
+        <h2>Sales</h2>
+        <table id="sales-table">
+            <thead>
+                <tr>
+                    <th>Sale To</th>
+                    <th>Quantity</th>
+                    <th>Measurement Unit</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Serial No</th>
+                    <th>RMS ID</th>
+                    <th>Box Type</th>
+                    <th>Date</th>
+                    <th>Verified By</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr {% if sale.serial_no in returned_serials %}style="background-color: #f4e300;"{% endif %}>
+
+                  
+                    <td>
+                        {{ sale.sale_to }}
+                        {% if sale.serial_no in returned_serials %}
+                       
+                          <span style="color: red; font-weight: bold;"><br>Returned</span>
+                        {% else %}
+                          
+                        {% endif %}
+                      </td>
+                      
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.measurement_unit }}</td>
+                    <td>{{ sale.product.name }}</td>
+                    <td>{{ sale.category }}</td>
+                    <td>{{ sale.serial_no }}</td>
+                    <td>{{ sale.rms_id }}</td>
+                    <td>{{ sale.box_type }}</td>
+                    <td>{{ sale.date }}</td>
+                    <td>{{ sale.verified_by }}</td>
+                    <td>{{ sale.description }}</td>
+
+                 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <style>
+        .yellow-row {
+            background-color: yellow;
+        }
+    </style>
+    
+    <!-- Purchases Section -->
+    <div id="purchases-section" class="section">
+        <h2>Purchases</h2>
+        <table id="purchases-table">
+            <thead>
+                <tr>
+                    <th>Purchased From</th>
+                    <th>Quantity</th>
+                    <th>Measurement Unit</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Serial No</th>
+                    <th>RMS ID</th>
+                    <th>Box Type</th>
+                    <th>Date</th>
+                    <th>Verified By</th>
+                    <th>Description</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase in purchases %}
+                <tr {% if purchase.serial_no in sales_serialno %}style="background-color: lightgreen;"{% endif %}>                    <td>{{ purchase.purchased_from }}</td>
+                    <td>{{ purchase.quantity }}</td>
+                    <td>{{ purchase.measurement_unit.name }}</td>
+                    <td>{{ purchase.product.name }}</td>
+                    <td>{{ purchase.category }}</td>
+                    <td>{{ purchase.serial_no }}</td>
+                    <td>{{ purchase.rms_id }}</td>
+                    <td>Not Applicable</td>
+                    <td>{{ purchase.date }}</td>
+                    <td>{{ purchase.verified_by }}</td>
+                    <td>{{ purchase.description }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  
+
+
+
+</div>
+
+<style>
+    /* General styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f6f9;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #4a90e2;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .nav-btn {
+        background-color: #4a90e2;
+        color: #fff;
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .nav-btn:hover {
+        background-color: #357ab8;
+    }
+
+    .section {
+        margin: 20px;
+    }
+
+    h2 {
+        color: #1e88e5;
+        margin-bottom: 1em;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    table th, table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #4a90e2;
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    /* Scroll Up Button Styles */
+#scrollUpBtn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+#scrollUpBtn:hover {
+    background-color: #357ab8;
+}
+
+
+
+/* Scroll Progress Circle */
+#scrollProgress {
+    position: fixed;
+    bottom: 90px;
+    left: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #4a90e2;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+
+    table tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+        }
+
+        .nav-btn {
+            font-size: 0.9rem;
+            padding: 8px 15px;
+        }
+
+        table {
+            font-size: 0.9rem;
+        }
+
+        table th, table td {
+            padding: 8px 10px;
+        }
+    }
+    /* Scroll Up Button Styles */
+#scrollUpBtn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+#scrollUpBtn:hover {
+    background-color: #357ab8;
+}
+
+/* Scroll Progress Circle */
+#scrollProgress {
+    position: fixed;
+    bottom: 90px;
+    left: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 5px solid #4a90e2;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+</style>
+
+<script>
+    // Scroll to sections
+    function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+ // Scroll Up Button functionality
+ const scrollUpBtn = document.createElement('button');
+    scrollUpBtn.id = 'scrollUpBtn';
+    scrollUpBtn.innerHTML = '↑';
+    document.body.appendChild(scrollUpBtn);
+
+    // Create Scroll Progress Circle functionality
+    const progressCircle = document.createElement('div');
+    progressCircle.id = 'scrollProgress';
+    document.body.appendChild(progressCircle);
+
+    // Scroll to top functionality
+    scrollUpBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Track scroll progress and update the circle's border
+    window.addEventListener('scroll', () => {
+        const scrollPercentage = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100;
+        progressCircle.style.background = `conic-gradient(black ${scrollPercentage}%, purple ${scrollPercentage}%)`;
+    });
+ // Track scroll progress
+ window.addEventListener('scroll', () => {
+     const scrollPercentage = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100;
+     progressCircle.innerHTML = Math.round(scrollPercentage);
+ });
+    // Export Sales table to Excel
+    function exportSalesTable() {
+        const table = document.getElementById('sales-table');
+        exportTableToExcel(table, 'sales_data.xlsx');
+    }
+
+    // Export Purchases table to Excel
+    function exportPurchasesTable() {
+        const table = document.getElementById('purchases-table');
+        exportTableToExcel(table, 'purchases_data.xlsx');
+    }
+
+    // Export both tables to Excel
+    function exportBothTables() {
+        const salesTable = document.getElementById('sales-table');
+        const purchasesTable = document.getElementById('purchases-table');
+        const combinedData = combineTables(salesTable, purchasesTable);
+        exportTableToExcel(combinedData, 'sales_and_purchases_data.xlsx');
+    }
+
+    // Export function for any table
+    function exportTableToExcel(table, filename) {
+        let tableData = [];
+        for (let row of table.rows) {
+            let rowData = [];
+            for (let cell of row.cells) {
+                rowData.push(cell.textContent);
+            }
+            tableData.push(rowData);
+        }
+
+        let ws = XLSX.utils.aoa_to_sheet(tableData);
+        let wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Data");
+        XLSX.writeFile(wb, filename);
+    }
+
+    // Combine both tables into one
+    function combineTables(salesTable, purchasesTable) {
+        const combinedTable = document.createElement('table');
+        combinedTable.innerHTML = salesTable.outerHTML + purchasesTable.outerHTML;
+        return combinedTable;
+    }
+    function filterTable() {
+        let input = document.getElementById("searchInput");
+        let filter = input.value.toLowerCase();
+        let salesTable = document.getElementById("sales-table");
+        let purchasesTable = document.getElementById("purchases-table");
+        
+        // Filter sales table rows
+        filterTableRows(salesTable, filter);
+        // Filter purchases table rows
+        filterTableRows(purchasesTable, filter);
+    }
+
+    // Function to filter rows in the table and highlight matches
+    function filterTableRows(table, filter) {
+        let rows = table.getElementsByTagName("tr");
+        for (let i = 1; i < rows.length; i++) {
+            let row = rows[i];
+            let cells = row.getElementsByTagName("td");
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                let cell = cells[j];
+                if (cell.innerText.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            // Show or hide the row and highlight if matched
+            if (match) {
+                row.style.display = "";
+                row.classList.add("highlight");
+            } else {
+                row.style.display = "none";
+                row.classList.remove("highlight");
+            }
+        }
+    }
+</script>
+
+<!-- Add the XLSX library for exporting to Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+
+{% endblock %}

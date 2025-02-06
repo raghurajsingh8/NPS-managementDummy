@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Member</title>
+</head>
+<body>
+    <h1>Add Member to Group</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="group_id" value="{{ group_id }}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <button type="submit">Add Member</button>
+    </form>
+</body>
+</html>

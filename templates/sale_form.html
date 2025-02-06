@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Sale Form{% endblock %}
+
+{% block content %}
+<h1>Sale Form</h1>
+
+<style>
+    /* Form Styles */
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    h1 {
+        text-align: center;
+        color:
+        #4a90e2;
+    }
+
+    /* Style for the submit buttons */
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 10px 0;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    /* Style for the 'Use Recent Data' button */
+    button[name="use_recent_data"] {
+        background-color: #f0ad4e;
+        margin-bottom: 10px;
+    }
+
+    button[name="use_recent_data"]:hover {
+        background-color: #ec971f;
+    }
+
+    /* Style for form fields */
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="date"] {
+        font-size: 16px;
+    }
+
+    /* Style for error messages */
+    .error {
+        color: red;
+        font-size: 14px;
+    }
+
+    /* Success message style */
+    .success-message {
+        color: green;
+        font-size: 16px;
+        text-align: center;
+        margin-top: 20px;
+        display: none;
+    }
+</style>
+
+<div id="success-message" class="success-message">
+    Form submitted successfully!
+</div>
+
+<form method="POST" id="sale-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+
+    
+    <!-- "Use Recent Data" Button -->
+    {% if recent_sale %}
+        <button type="submit" name="use_recent_data" value="1">Use Recent Data</button>
+    {% endif %}
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+
+    <!-- Clear Form Button -->
+    
+</form>
+
+<script>
+    // Display the success message if the form was submitted
+    {% if submitted %}
+        document.getElementById('success-message').style.display = 'block';
+        // Hide success message after 2 seconds
+        setTimeout(function() {
+            document.getElementById('success-message').style.display = 'none';
+        }, 2000);
+    {% endif %}
+
+    // Auto-clear the form after 2 seconds
+    setTimeout(function() {
+        if (document.getElementById('success-message').style.display === 'block') {
+            document.getElementById('sale-form').reset();  // Reset the form
+        }
+    }, 2000);
+
+    // Clear the form when the "Clear Form" button is clicked
+    document.getElementById('clear-form-button').addEventListener('click', function() {
+        document.getElementById('sale-form').reset();  // Reset the form fields
+    });
+</script>
+
+{% endblock %}

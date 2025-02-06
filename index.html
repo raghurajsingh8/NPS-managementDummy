@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block title %}
+    Student Enrollment - Welcome
+{% endblock title %}
+
+{% block content %}
+<body>
+    <div style="background: rgb(1, 12, 16); background-size: cover; background-position: center; padding: 50px;">
+        <div class="card bg-light p-3">
+            <div class="hero">
+                <div class="message">
+                    <h1 data-aos="fade-up" class="animated-title">Welcome to Digital Marcado</h1>
+                    <h2>Student Enrollment Portal</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Credits Section -->
+    <div class="credits">
+        <p>Website created by <strong>Shubham Anand</strong> and <strong>Raghuraj Pratap Singh</strong></p>
+    </div>
+</body>
+
+<style>
+    /* General Body Style */
+    body {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: rgb(0, 11, 14);
+    }
+
+    /* Hero Section */
+    .hero {
+        width: 400px;
+        border: 2px solid black;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-left: 30%;
+        background: #0a421c;
+        color: white;
+        opacity: 0.9;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 15px;
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .hero:hover {
+        transform: scale(1.05); /* Slight zoom effect on hover */
+    }
+
+    .message {
+        margin-top: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+        opacity: 0;
+    }
+
+    h2 {
+        font-size: 24px;
+        opacity: 0;
+        animation: fadeIn 1.5s ease-in-out forwards;
+    }
+
+    /* Hover Effect for Hero Section */
+    .hero:hover h1 {
+        opacity: 1;
+        animation: fadeInUp 1s ease forwards;
+    }
+
+    /* Keyframes for Animation */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Credits Section Style */
+    .credits {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #333;
+        text-align: center;
+    }
+
+    .credits strong {
+        color: #4CAF50;
+    }
+
+    /* GSAP Animation for Hero Text */
+    .animated-title {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeInUp 1s ease-in-out forwards;
+    }
+
+</style>
+
+<!-- Include GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
+<script>
+    // GSAP animation for smooth fade-in effects
+    window.onload = function() {
+        gsap.from(".hero", {
+            opacity: 0,
+            y: -50,
+            duration: 1.5,
+            ease: "power4.out"
+        });
+
+        gsap.from(".message h1", {
+            opacity: 0,
+            y: 50,
+            duration: 1.5,
+            delay: 0.5,
+            ease: "power4.out"
+        });
+
+        gsap.from(".message h2", {
+            opacity: 0,
+            y: 30,
+            duration: 1.5,
+            delay: 1,
+            ease: "power4.out"
+        });
+    };
+</script>
+
+{% endblock content %}

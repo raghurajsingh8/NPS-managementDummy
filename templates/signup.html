@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}
+    signup
+       {% endblock title %}
+{% block content %}
+
+<body>
+  <div style="background-image: url('https://i.pinimg.com/564x/aa/fa/e9/aafae976a38bd341fa0d1d6f57a52d6e.jpg'); background-size: cover; background-position: center; padding: 50px;">
+<div card="card bg-light p-3">
+  
+    <form action="/signup/" method="post">
+      <div class="message">
+
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+          <strong>{{message}}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               
+        {% endfor %}
+        </div>
+      <h1 data-aos="fade-up">SignUp</h1>
+       {% csrf_token %}
+       <label for="email" >Email</label>
+       <div class="form-group">
+        <input type="email" class="form-control" id="email" name="email"  required >
+       </div>
+       <label for="pass1" >Password</label>
+       <div class="form-group">
+        <input type="Password" class="form-control" id="pass1" name="pass1"  required >
+       </div>
+       <label for="pass2" >Confirm Password</label>
+       <div class="form-group">
+        <input type="password" class="form-control" id="pass2" name="pass2"  required >
+       </div>
+      <br>
+      <button  type="submit" class="btn">Register</button>
+
+      <br>
+
+      Already User?<a href="/login/">Login</a>
+      </form>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    </div>
+</body>
+<style>
+  .btn{
+    background-color:black;
+    color:white;
+    border-radius:20px;
+    border:solid white;
+  }
+  message{
+    max-width:280px;
+  }
+  .form-group{
+    border:solid red;
+    
+  }
+  .form-group:hover{
+    border:solid blue;
+  }
+ form{
+  width:300px;
+  border:white solid ;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  margin-left:40%;
+  background:#0c0f0d;
+  color:white;
+  opacity:.8;
+ }
+ body{
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+ }
+</style>
+
+  
+
+{%endblock content%}

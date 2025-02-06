@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <title>{% block title %}Page{% endblock %}</title>
+    <style>
+      /* Global Styles */
+      body {
+          font-family: 'Roboto', Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f4f7fc;
+          color: #333;
+      }
+
+      /* Navbar Styles */
+      nav {
+          background: linear-gradient(to right, #4a90e2, #0f80e6);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.8em 1em;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          position: relative;
+      }
+
+      nav .logo {
+          color: white;
+          font-size: 24px;
+          font-weight: bold;
+          text-transform: uppercase;
+      }
+
+      /* Navbar Links */
+      nav a {
+          text-decoration: none;
+          color: white;
+          font-weight: bold;
+          padding: 10px 20px;
+          border-radius: 5px;
+          transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      nav a:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+          color: #0f4c81;
+      }
+
+      nav a.active {
+          background-color: #0f4c81;
+          color: #fff;
+      }
+
+      /* Mobile Navbar Styles */
+      .menu-icon {
+          display: none;
+          cursor: pointer;
+          font-size: 30px;
+          color: white;
+      }
+
+      .menu {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 100%;
+      }
+
+      .menu a {
+          margin: 0 15px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          .menu {
+              display: none;
+              flex-direction: column;
+              width: 100%;
+              align-items: flex-start;
+              background-color: #0f80e6;
+              position: absolute;
+              top: 60px;
+              left: 0;
+              padding: 15px;
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          }
+
+          .menu a {
+              width: 100%;
+              padding: 15px;
+              margin: 5px 0;
+          }
+
+          .menu-icon {
+              display: block;
+            }
+
+          .menu.active {
+              display: flex;
+          }
+      }
+
+      /* Content Wrapper */
+      .content {
+          padding: 20px;
+      }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Newpious Synergies</div>
+
+        <!-- Mobile Menu Icon -->
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+
+        <!-- Navbar Links -->
+        <div class="menu" id="menu">
+            <a style="color:white; background-color:red" href="/manage-users/">Admin Panel</a>
+            <a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+            <a href="/sale/" class="{% if request.path == '/sale/' %}active{% endif %}">Sale</a>
+            <a href="/purchase/" class="{% if request.path == '/purchase/' %}active{% endif %}">Purchase</a>
+            <a href="/returned-items/" class="{% if request.path == '/returned-items/' %}active{% endif %}">Returned Items</a>
+            <a href="/collections/" class="{% if request.path == '/collections/' %}active{% endif %}">Manage Inventory</a>
+            <a href="/dashboard/" class="{% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a>
+            <a href="/superchart/" class="superchart-link">Superchart</a>
+
+            <style>
+                .superchart-link {
+                    color: white;
+                    background: linear-gradient(135deg, #6fb1fc, #4364f7, #3e8ef7); /* Gradient background */
+                    padding: 10px 20px;
+                    border: white 2px solid;
+                    border-radius: 30px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    text-decoration: none;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+                    transition: all 0.3s ease; /* Smooth transition for hover effects */
+                }
+            
+                .superchart-link:hover {
+                    background: linear-gradient(135deg, #fca5c1, #f5c5f6, #e24ac1); /* Hover gradient background */
+                    transform: scale(1.1); /* Slight zoom effect on hover */
+                    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+                }
+            </style>
+                        
+
+            {% if user.is_authenticated %}
+                <!-- Display user's email -->
+                <a style="color:white; background-color:green" href="/logout/">Logout from {{ user.email }}</a> <!-- Logout link -->
+            {% else %}
+                <a href="/login/" class="{% if request.path == '/login/' %}active{% endif %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Messages Section (optional) -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuIcon = document.getElementById('menu-icon');
+        const menu = document.getElementById('menu');
+        menuIcon.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
